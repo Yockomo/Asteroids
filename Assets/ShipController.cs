@@ -1,11 +1,14 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ShipController : MonoBehaviour
 {
+    [Header("Movement settings")]
     [SerializeField] private float moveSpeed;
     [SerializeField] private Transform forwardPoint;
+    
+    [Header("Rotation settings")]
+    [SerializeField] private float anglePerRotation;
 
     public bool IsMoving { get; set; }
 
@@ -21,12 +24,26 @@ public class ShipController : MonoBehaviour
     {
         if(inputs.Moving && !IsMoving)
         {
-            direction = new Vector3(forwardPoint.position.x, forwardPoint.position.y);
-            StartCoroutine(LerpPosition(1/moveSpeed));
+            Move();
+        }
+        if(inputs.GetCurrentScheme() == InputScheme.Keyboard)
+        {
+            Rotate(inputs.Rotating);
+        }
+        else
+        {
+            var mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            //Look at mouse Position
         }
     }
 
-    private IEnumerator LerpPosition(float duration)
+    private void Move()
+    {
+        direction = new Vector3(forwardPoint.position.x, forwardPoint.position.y);
+        StartCoroutine(MovePosition(1 / moveSpeed));
+    }
+
+    private IEnumerator MovePosition(float duration)
     {
         IsMoving = true;
         var endPoint = transform.position + (direction - transform.position);
@@ -42,5 +59,11 @@ public class ShipController : MonoBehaviour
 
         transform.position = endPoint;
         IsMoving = false;
+    }
+
+    private void Rotate(int direction)
+    {
+        var angle = direction * anglePerRotation;
+        transform.Rotate(Vector3.forward, angle);
     }
 }

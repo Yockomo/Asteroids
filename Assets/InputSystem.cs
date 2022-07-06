@@ -59,11 +59,11 @@ public class InputSystem : MonoBehaviour
     {
         if(Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
         {
-            return -1;
+            return 1;
         }
         else if(Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
         {
-            return 1;
+            return -1;
         }
         return 0;
     }
