@@ -9,9 +9,9 @@ public class AsteroidsPool : SpaceBodiePool
     [SerializeField, Range(0, 3)] private float maxSpeedOfBodies;
 
     private List<Vector2> randomPointsInScreenArea = new List<Vector2>();
-    private List<Vector2> randomDirections = new List<Vector2>() 
-    { 
-        Vector2.up, Vector2.down, Vector2.right,Vector2.left, 
+    private List<Vector2> randomDirections = new List<Vector2>()
+    {
+        Vector2.up, Vector2.down, Vector2.right,Vector2.left,
         new Vector2(1,1), new Vector2(-1,1), new Vector2(1,-1), new Vector2(-1,-1),
     };
 
@@ -25,7 +25,7 @@ public class AsteroidsPool : SpaceBodiePool
 
     private void CreateAsteroids()
     {
-        for(int i =0; i < BodiesToCreate; i++)
+        for (int i = 0; i < BodiesToCreate; i++)
         {
             spaceBodyPool.Get();
         }
@@ -57,7 +57,23 @@ public class AsteroidsPool : SpaceBodiePool
     {
         var randomSpawnPoint = GetRandomPoint(randomPointsInScreenArea);
         var body = Instantiate(spaceBodyPrefab, randomSpawnPoint, Quaternion.identity);
+        var asteroid = body.GetComponent<Asteroid>();
+        AsteroidEvents(asteroid, true);
         return body;
+    }
+
+    private void AsteroidEvents(Asteroid asteroid, bool follow)
+    {
+        if (follow)
+        {
+            asteroid.OnHitEvent += spaceBodyPool.Release;
+            asteroid.OnDestroyEvent += spaceBodyPool.Release;
+        }
+        else
+        {
+            asteroid.OnHitEvent -= spaceBodyPool.Release;
+            asteroid.OnDestroyEvent -= spaceBodyPool.Release;
+        }
     }
 
     private Vector2 GetRandomPoint(List<Vector2> list)
@@ -77,5 +93,12 @@ public class AsteroidsPool : SpaceBodiePool
     {
         spaceBody.Stop();
         base.ActionsOnRelease(spaceBody);
+    }
+
+    protected override void ActionsOnDestroy(SpaceBodyController spaceBody)
+    {
+        var asteroid = spaceBody.gameObject.GetComponent<Asteroid>();
+        AsteroidEvents(asteroid, false);
+        base.ActionsOnDestroy(spaceBody);
     }
 }

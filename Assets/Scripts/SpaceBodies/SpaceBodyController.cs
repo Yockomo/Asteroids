@@ -46,6 +46,13 @@ public class SpaceBodyController : MonoBehaviour, ITeleportable
         IsMoving = true;
     }
 
+    public float GetTimeOverDistance(float distance)
+    {
+        var nextPoint = transform.position + direction;
+        var speed = Vector2.Distance(transform.position, nextPoint);
+        return distance/speed;        
+    }
+
     public void SetSpeedAndDirection(float speedValue, Vector2 newDirection)
     {
         speed = speedValue;

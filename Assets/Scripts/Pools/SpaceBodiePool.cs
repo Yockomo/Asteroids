@@ -8,7 +8,7 @@ public class SpaceBodiePool : MonoBehaviour
     [SerializeField] protected SpaceBodyController spaceBodyPrefab;
 
     protected ObjectPool<SpaceBodyController> spaceBodyPool;
-    protected List<SpaceBodyController> bodiesInPool = new List<SpaceBodyController>();
+    protected List<SpaceBodyController> activeBodiesInPool = new List<SpaceBodyController>();
 
     private void Start()
     {
@@ -30,12 +30,12 @@ public class SpaceBodiePool : MonoBehaviour
     protected virtual void ActionsOnGet(SpaceBodyController spaceBody)
     {
         spaceBody.gameObject.SetActive(true);
-        bodiesInPool.Add(spaceBody);
+        activeBodiesInPool.Add(spaceBody);
     }
 
     protected virtual void ActionsOnRelease(SpaceBodyController spaceBody)
     {
-        bodiesInPool.Remove(spaceBody);
+        activeBodiesInPool.Remove(spaceBody);
         spaceBody.gameObject.SetActive(false);
     }
 
@@ -46,6 +46,6 @@ public class SpaceBodiePool : MonoBehaviour
 
     protected virtual List<SpaceBodyController> GetActiveBodies()
     {
-        return bodiesInPool;
+        return activeBodiesInPool;
     }
 }
