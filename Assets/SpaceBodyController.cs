@@ -53,11 +53,13 @@ public class SpaceBodyController : MonoBehaviour
     {
         StopAllCoroutines();
         IsStopped = true;
+        IsMoving = false;
     }
 
     public void StartMoving()
     {
         IsStopped = false;
+        IsMoving = true;
     }
 }
 
