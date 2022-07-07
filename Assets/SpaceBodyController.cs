@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class SpaceBodyController : MonoBehaviour
+public class SpaceBodyController : MonoBehaviour, ITeleportable
 {
     [SerializeField] private float speed;
     [SerializeField] private Vector2 startDirection;
@@ -47,6 +47,13 @@ public class SpaceBodyController : MonoBehaviour
     public void SetDirection(Vector2 newDirection)
     {
         direction = newDirection * speed;
+    }
+
+    void ITeleportable.Teleport(Vector2 newPosition)
+    {
+        Stop();
+        transform.position = newPosition;
+        StartMoving();
     }
 
     public void Stop()

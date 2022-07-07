@@ -1,18 +1,48 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EdgesDetector : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private float verticalHalfSize;
+    private float horizontalHalfSize;
+    private Vector3 teleportPosition;
+
+    private void Start()
     {
-        
+        verticalHalfSize = Camera.main.orthographicSize;
+        horizontalHalfSize = verticalHalfSize * Screen.width / Screen.height;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerExit2D(Collider2D collision)
     {
-        
+        if(collision.gameObject.TryGetComponent<ITeleportable>(out ITeleportable teleporter) 
+            && DoNeedToTeleport(collision.transform))
+        {
+           teleporter.Teleport(teleportPosition);
+        }
+    }
+
+    private bool DoNeedToTeleport(Transform transform)
+    {
+        teleportPosition = transform.position;
+
+        if (transform.position.y >= verticalHalfSize)
+        {
+            teleportPosition = new Vector2(transform.position.x, -verticalHalfSize);
+        }
+        else if (transform.position.y <= -verticalHalfSize)
+        {
+            teleportPosition = new Vector2(transform.position.x, verticalHalfSize);
+        }
+        if (transform.position.x >= horizontalHalfSize)
+        {
+            teleportPosition = new Vector2(-horizontalHalfSize, transform.position.y);
+        }
+        else if (transform.position.x <= -horizontalHalfSize)
+        {
+            teleportPosition = new Vector2(horizontalHalfSize, transform.position.y);
+        }
+
+        return teleportPosition != transform.position;
     }
 }
+

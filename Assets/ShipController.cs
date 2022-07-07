@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class ShipController : MonoBehaviour
+public class ShipController : MonoBehaviour, ITeleportable
 {
     [Header("Movement settings")]
     [SerializeField] private float moveSpeed;
@@ -12,6 +12,7 @@ public class ShipController : MonoBehaviour
     [SerializeField] private float rotationSpeed;
 
     public bool IsMoving { get; set; }
+    public bool IsStopped { get; set; }
 
     private InputSystem inputs;
     private Vector3 direction;
@@ -28,7 +29,7 @@ public class ShipController : MonoBehaviour
 
     private void DetermineShipRotationAndMovement()
     {
-        if (inputs.Moving && !IsMoving)
+        if (inputs.Moving && !IsMoving && !IsStopped)
         {
             Move();
         }
@@ -79,5 +80,24 @@ public class ShipController : MonoBehaviour
         var angle = Vector2.SignedAngle(Vector2.up, direction);
         var targetRotation = new Vector3(0, 0, angle);
         transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(targetRotation), rotationSpeed * Time.deltaTime);
+    }
+
+    public void Stop()
+    {
+        StopAllCoroutines();
+        IsStopped = true;
+    }
+
+    public void StartMoving()
+    {
+        IsStopped = false;
+        IsMoving = false;
+    }
+
+    public void Teleport(Vector2 newPosition)
+    {
+       Stop();
+       transform.position = newPosition;
+       StartMoving(); 
     }
 }
