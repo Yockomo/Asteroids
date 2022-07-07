@@ -6,20 +6,24 @@ public class SpaceBodyController : MonoBehaviour, ITeleportable
     public bool IsMoving { get; private set; }
     public bool IsStopped { get; private set; }
 
-    private Vector3 direction = new Vector3(1,1);
-    private float speed = 1f;
+    private Vector3 direction;
+    private float speed;
 
     private void Start()
     {
         IsMoving = true;
         IsStopped = false;
-        SetDirection(direction);
     }
 
     private void Update()
     {
         if (IsMoving && !IsStopped)
-        {
+        {   
+            if(direction == null)
+            {
+                Debug.LogError("There is no direction on spaceBody component");
+            }
+
             StartCoroutine(LerpPosition(1));
         }
     }
@@ -42,14 +46,10 @@ public class SpaceBodyController : MonoBehaviour, ITeleportable
         IsMoving = true;
     }
 
-    public void SetDirection(Vector2 newDirection)
+    public void SetSpeedAndDirection(float speedValue, Vector2 newDirection)
     {
+        speed = speedValue;
         direction = newDirection * speed;
-    }
-
-    public void SetSpeed(float value)
-    {
-        speed = value;
     }
 
     void ITeleportable.Teleport(Vector2 newPosition)

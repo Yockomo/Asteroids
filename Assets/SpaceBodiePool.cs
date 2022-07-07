@@ -1,19 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.Pool;
 
 public class SpaceBodiePool : MonoBehaviour
 {
     [Header("Pool parameters")]
-    [SerializeField] private SpaceBodyController spaceBodyPrefab;
+    [SerializeField] protected SpaceBodyController spaceBodyPrefab;
 
-    private ObjectPool<SpaceBodyController> spaceBodyPool;
-    private List<SpaceBodyController> bodiesInPool = new List<SpaceBodyController>();
-    
-    [Header("On Create/Destroy events")]
-    public UnityEvent OnBodyCreate;
-    public UnityEvent OnBodyDestroy;
+    protected ObjectPool<SpaceBodyController> spaceBodyPool;
+    protected List<SpaceBodyController> bodiesInPool = new List<SpaceBodyController>();
 
     private void Start()
     {
@@ -36,19 +31,17 @@ public class SpaceBodiePool : MonoBehaviour
     {
         spaceBody.gameObject.SetActive(true);
         bodiesInPool.Add(spaceBody);
-        OnBodyCreate.Invoke();
     }
 
     protected virtual void ActionsOnRelease(SpaceBodyController spaceBody)
     {
         bodiesInPool.Remove(spaceBody);
         spaceBody.gameObject.SetActive(false);
-        OnBodyDestroy.Invoke();
     }
 
     protected virtual void ActionsOnDestroy(SpaceBodyController spaceBody)
     {
-
+        Destroy(spaceBody);
     }
 
     protected virtual List<SpaceBodyController> GetActiveBodies()
