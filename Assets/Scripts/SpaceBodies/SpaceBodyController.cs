@@ -3,19 +3,17 @@ using UnityEngine;
 
 public class SpaceBodyController : MonoBehaviour, ITeleportable
 {
-    [SerializeField] private float speed;
-    [SerializeField] private Vector2 startDirection;
-
     public bool IsMoving { get; private set; }
     public bool IsStopped { get; private set; }
 
-    private Vector3 direction;
+    private Vector3 direction = new Vector3(1,1);
+    private float speed = 1f;
 
     private void Start()
     {
         IsMoving = true;
         IsStopped = false;
-        SetDirection(startDirection);
+        SetDirection(direction);
     }
 
     private void Update()
@@ -47,6 +45,11 @@ public class SpaceBodyController : MonoBehaviour, ITeleportable
     public void SetDirection(Vector2 newDirection)
     {
         direction = newDirection * speed;
+    }
+
+    public void SetSpeed(float value)
+    {
+        speed = value;
     }
 
     void ITeleportable.Teleport(Vector2 newPosition)
