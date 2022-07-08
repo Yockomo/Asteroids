@@ -676,9 +676,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 696fcf223cbd7864fa6b2bd2df95c0c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spaceBodyPrefab: {fileID: 0}
-  shootPosition: {fileID: 0}
-  bulletSpeed: 0
+  spaceBodyPrefab: {fileID: 6393866813511378195, guid: 74a5403d8fcb0cc4e8d775a725dced9e, type: 3}
+  shootingPointTransform: {fileID: 2139711121}
+  bulletSpeed: 5
 --- !u!1 &933990359
 GameObject:
   m_ObjectHideFlags: 0
@@ -694,6 +694,7 @@ GameObject:
   - component: {fileID: 933990364}
   - component: {fileID: 933990365}
   - component: {fileID: 933990366}
+  - component: {fileID: 933990367}
   m_Layer: 6
   m_Name: PlayerShip
   m_TagString: Untagged
@@ -713,10 +714,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4cbc10feaa1a534e8f7b45e0a161145, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
+  moveSpeed: 1
   forwardPoint: {fileID: 2139711121}
   anglePerRotationKeyboard: 3
-  rotationSpeed: 30
+  rotationSpeed: 150
 --- !u!61 &933990361
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -860,6 +861,21 @@ MonoBehaviour:
   healthCount: 3
   invinsibleTime: 3
   pingingInterval: 0.5
+--- !u!114 &933990367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 933990359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1661cbc41ff16fd448772e373e50808e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletPool: {fileID: 777758213}
+  forwardPoint: {fileID: 2139711121}
+  intervalBetweenShots: 0.33
 --- !u!1 &1241746748
 GameObject:
   m_ObjectHideFlags: 0
@@ -1004,7 +1020,7 @@ EdgeCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_EdgeRadius: 0.5
+  m_EdgeRadius: 1
   m_Points:
   - {x: -0.5, y: 0}
   - {x: 0.5, y: 0}
@@ -1198,6 +1214,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2139711121}
+  - component: {fileID: 2139711123}
   m_Layer: 6
   m_Name: ForwardPoint
   m_TagString: Untagged
@@ -1219,3 +1236,17 @@ Transform:
   m_Father: {fileID: 933990363}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2139711123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2139711120}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0f64957527f5d14c98b129085dfa7a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GLOBALPOSITION: {x: 0, y: 0, z: 0}
+  LOCALPOSITION: {x: 0, y: 0, z: 0}

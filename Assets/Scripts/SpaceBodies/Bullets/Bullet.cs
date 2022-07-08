@@ -3,7 +3,9 @@ using System.Collections;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
-{ 
+{
+    [SerializeField] private int ignoreLayerIndex;
+
     public Action<SpaceBodyController> OnHitEvent;
 
     private float screenDistance;
@@ -60,7 +62,7 @@ public class Bullet : MonoBehaviour
 
     protected virtual bool IgnoreObjects(Collider2D collider)
     {
-        return collider.TryGetComponent<ShipController>(out ShipController playersShip);
+        return collider.gameObject.layer == ignoreLayerIndex;
     }
 
     public void ReleaseThisBullet()
