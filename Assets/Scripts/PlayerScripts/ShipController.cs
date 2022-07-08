@@ -15,7 +15,6 @@ public class ShipController : MonoBehaviour, ITeleportable
     public bool IsStopped { get; set; }
 
     private InputSystem inputs;
-    private Vector3 direction;
 
     private void Start()
     {
@@ -46,14 +45,13 @@ public class ShipController : MonoBehaviour, ITeleportable
 
     private void Move()
     {
-        direction = new Vector3(forwardPoint.position.x, forwardPoint.position.y);
         StartCoroutine(MoveToPosition(1 / moveSpeed));
     }
 
     private IEnumerator MoveToPosition(float duration)
     {
         IsMoving = true;
-        var endPoint = transform.position + (direction - transform.position);
+        var endPoint = transform.position + (forwardPoint.position - transform.position);
         var time = 0f;
         Vector2 startPosition = transform.position;
 

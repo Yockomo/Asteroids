@@ -42,7 +42,7 @@ public class AsteroidsPool : SpaceBodiePool
         var insideCircleRadius = GetRadiusInsideScreen();
         for (int i = 0; i < RandomPointsForCreate; i++)
         {
-            randomPointsInScreenArea.Add(Random.insideUnitCircle * insideCircleRadius);
+            randomPointsInScreenArea.Add(Random.onUnitSphere * insideCircleRadius);
         }
     }
 
@@ -91,8 +91,8 @@ public class AsteroidsPool : SpaceBodiePool
 
     protected override void ActionsOnRelease(SpaceBodyController spaceBody)
     {
-        spaceBody.Stop();
         base.ActionsOnRelease(spaceBody);
+        spaceBody.Stop();
     }
 
     protected override void ActionsOnDestroy(SpaceBodyController spaceBody)

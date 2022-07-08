@@ -1,28 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
 public class BulletPool : SpaceBodiePool
 {
-    [SerializeField] private Transform shootPosition;
+    [SerializeField] private Transform shootingPointTransform;
 
     [SerializeField] private float bulletSpeed;
 
-    private void CreateAsteroids()
-    {
-        spaceBodyPool.Get();
-    }
+    private Vector2 currentDirection;
 
-    protected override void PoolStartFunction()
+    public void GetBullet(Vector2 shootDirection)
     {
-        spaceBodyPool = new ObjectPool<SpaceBodyController>(createFunc: () => ActionsOnCreate(), actionOnGet: (body) => ActionsOnGet(body),
-        actionOnRelease: (body) => ActionsOnRelease(body), actionOnDestroy: (body) => ActionsOnDestroy(body), defaultCapacity: 10, maxSize: 50);
+        currentDirection = shootDirection;
+        spaceBodyPool.Get();
     }
 
     protected override SpaceBodyController ActionsOnCreate()
     {
-        var body = Instantiate(spaceBodyPrefab, shootPosition.position, Quaternion.identity);
+        var body = Instantiate(spaceBodyPrefab, shootingPointTransform.position, Quaternion.identity);
         var bullet = body.GetComponent<Bullet>();
         BulletEvents(bullet, true);
         return body;
@@ -42,22 +37,23 @@ public class BulletPool : SpaceBodiePool
 
     protected override void ActionsOnGet(SpaceBodyController spaceBody)
     {
-        //base.ActionsOnGet(spaceBody);
-        //var direction
-        //    spaceBody.SetSpeedAndDirection(bulletSpeed, randomDirection);
-        //spaceBody.StartMoving();
+        spaceBody.transform.position = shootingPointTransform.position;
+        spaceBody.SetSpeedAndDirection(bulletSpeed, currentDirection);
+        spaceBody.gameObject.SetActive(true);
+        spaceBody.StartMoving();
     }
 
     protected override void ActionsOnRelease(SpaceBodyController spaceBody)
     {
-        spaceBody.Stop();
         base.ActionsOnRelease(spaceBody);
+        spaceBody.Stop();
+        spaceBody.gameObject.GetComponent<Bullet>().StopAllCoroutines();
     }
 
     protected override void ActionsOnDestroy(SpaceBodyController spaceBody)
     {
-        //var asteroid = spaceBody.gameObject.GetComponent<Asteroid>();
-        //AsteroidEvents(asteroid, false);
-        //base.ActionsOnDestroy(spaceBody);
+        var bullet = spaceBody.gameObject.GetComponent<Bullet>();
+        BulletEvents(bullet, false);
+        base.ActionsOnDestroy(spaceBody);
     }
 }

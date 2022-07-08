@@ -2,10 +2,8 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour, IHitable
-{
-    [SerializeField] private LayerMask ignoreLayer;
-    
+public class Bullet : MonoBehaviour
+{ 
     public Action<SpaceBodyController> OnHitEvent;
 
     private float screenDistance;
@@ -38,7 +36,7 @@ public class Bullet : MonoBehaviour, IHitable
 
     private float GetScreenWidthOrHeight(Vector2 secondPoint)
     {
-        var firstPoint = (Vector2)Camera.main.ScreenToWorldPoint(new Vector3(0, 0, Camera.main.nearClipPlane));
+        var firstPoint = (Vector2) Camera.main.ScreenToWorldPoint(new Vector3(0, 0, Camera.main.nearClipPlane));
         return Vector2.Distance(firstPoint, secondPoint);
     }
 
@@ -47,26 +45,30 @@ public class Bullet : MonoBehaviour, IHitable
         var time = GetComponent<SpaceBodyController>().GetTimeOverDistance(screenDistance);
         yield return new WaitForSecondsRealtime(time);
         timerStarted = false;
-        Hit();
+        ReleaseThisBullet();
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
-        if( collision.TryGetComponent<IHitable>(out IHitable hitable) 
-            && collision.gameObject.layer != ignoreLayer )
+        if( collision.TryGetComponent<IHitable>(out IHitable hitable) && collision.isActiveAndEnabled
+            && !IgnoreObjects(collision))
         {
             hitable.Hit();
-            Hit();
+            ReleaseThisBullet();
         }
     }
 
-    public void Hit()
+    protected virtual bool IgnoreObjects(Collider2D collider)
     {
-        OnHitEvent?.Invoke(GetComponent<SpaceBodyController>());
+        return collider.TryGetComponent<ShipController>(out ShipController playersShip);
     }
 
-    public void Destroy()
+    public void ReleaseThisBullet()
     {
-        return;
+        if (isActiveAndEnabled)
+        {
+            timerStarted = false;
+            OnHitEvent?.Invoke(GetComponent<SpaceBodyController>());
+        }
     }
 }

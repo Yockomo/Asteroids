@@ -42,7 +42,7 @@ public class InputSystem : MonoBehaviour
     private void KeyboardAndMouseInputs()
     {
         Moving = MoveForwardKeyboardInput() || Input.GetKey(KeyCode.Mouse1);
-        Shooting = ShootKeyboradInput() || Input.GetKey(KeyCode.Mouse0);
+        Shooting = ShootKeyboradInput() || Input.GetKeyDown(KeyCode.Mouse0);
     }
 
     private bool MoveForwardKeyboardInput()
