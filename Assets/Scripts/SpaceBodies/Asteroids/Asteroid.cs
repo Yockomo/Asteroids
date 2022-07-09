@@ -10,16 +10,16 @@ public class Asteroid : MonoBehaviour, IHitable
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.TryGetComponent<IHitable>(out IHitable hitable)
-            && CorrectObjects(collision))
+            && !IgnoreObjects(collision))
         {
             hitable.Hit();
             this.Destroy();
         }
     }
 
-    protected virtual bool CorrectObjects(Collision2D collision)
+    protected virtual bool IgnoreObjects(Collision2D collision)
     {
-        return collision.gameObject.TryGetComponent<ShipController>(out ShipController playersShip);
+        return collision.gameObject.TryGetComponent<Asteroid>(out Asteroid asteroid);
     }
 
     public void Hit()

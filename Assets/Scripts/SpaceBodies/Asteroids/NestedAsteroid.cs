@@ -1,10 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class NestedAsteroid : Asteroid
 {
-    [SerializeField] private SpaceBodyController fraction;
-    
-
+    [SerializeField] private Asteroid nestedAsteroids;
+    [SerializeField] private int count;
 }

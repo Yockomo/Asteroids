@@ -8,8 +8,8 @@ public class EdgesDetector : MonoBehaviour
 
     private void Start()
     {
-        verticalHalfSize = Camera.main.orthographicSize;
-        horizontalHalfSize = verticalHalfSize * Screen.width / Screen.height;
+        verticalHalfSize = ScreenSizeParameters.verticalHalfSize;
+        horizontalHalfSize = ScreenSizeParameters.horizontalHalfSize;
     }
 
     private void OnTriggerExit2D(Collider2D collision)

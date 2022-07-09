@@ -158,4 +158,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d08a4208ec5b4ae47a007214751af0be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ignoreLayerIndex: 7
+  ignoreLayersIndex: 0700000008000000

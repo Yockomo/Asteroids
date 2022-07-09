@@ -39,30 +39,46 @@ public class AsteroidsPool : SpaceBodiePool
 
     private void FillRandomPointsLists()
     {
-        var insideCircleRadius = GetRadiusInsideScreen();
+        var listOfYPoints = GetRandomPoints(ScreenSizeParameters.verticalHalfSize, RandomPointsForCreate, 0.8f);
+        var listOfXPoints = GetRandomPoints(ScreenSizeParameters.horizontalHalfSize, RandomPointsForCreate, 0.8f);
+
         for (int i = 0; i < RandomPointsForCreate; i++)
         {
-            randomPointsInScreenArea.Add(Random.onUnitSphere * insideCircleRadius);
+            var xPoint = GetRandomPointFromList(listOfXPoints);
+            var yPoint = GetRandomPointFromList(listOfYPoints);
+            randomPointsInScreenArea.Add(new Vector2(xPoint,yPoint));
         }
     }
 
-    private float GetRadiusInsideScreen()
+    private T GetRandomPointFromList<T>(List<T> list)
     {
-        var verticalHalfSize = Camera.main.orthographicSize;
-        var horizontalHalfSize = verticalHalfSize * Screen.width / Screen.height;
-        return Mathf.Min(verticalHalfSize, horizontalHalfSize);
+        return list[Random.Range(0, list.Count)];
+    }
+
+    private List<float> GetRandomPoints(float borders, int count, float bordersPercent)
+    {
+        bordersPercent = bordersPercent > 1 ? 1 : bordersPercent;
+        var listOfPoints = new List<float>();
+        for(int i = 0; i<count;i++)
+        {
+        var randomMinusPoint = Random.Range(-borders * bordersPercent, -borders);
+        listOfPoints.Add(randomMinusPoint);
+        var randomPlusPoint = Random.Range(borders * bordersPercent, borders);
+        listOfPoints.Add(randomPlusPoint);
+        }
+        return listOfPoints;
     }
 
     protected override SpaceBodyController ActionsOnCreate()
     {
-        var randomSpawnPoint = GetRandomPoint(randomPointsInScreenArea);
+        var randomSpawnPoint = GetRandomPointFromList(randomPointsInScreenArea);
         var body = Instantiate(spaceBodyPrefab, randomSpawnPoint, Quaternion.identity);
         var asteroid = body.GetComponent<Asteroid>();
         AsteroidEvents(asteroid, true);
         return body;
     }
 
-    private void AsteroidEvents(Asteroid asteroid, bool follow)
+    protected void AsteroidEvents(Asteroid asteroid, bool follow)
     {
         if (follow)
         {
@@ -76,15 +92,10 @@ public class AsteroidsPool : SpaceBodiePool
         }
     }
 
-    private Vector2 GetRandomPoint(List<Vector2> list)
-    {
-        return list[Random.Range(0, list.Count)];
-    }
-
     protected override void ActionsOnGet(SpaceBodyController spaceBody)
     {
         base.ActionsOnGet(spaceBody);
-        var randomDirection = GetRandomPoint(randomDirections);
+        var randomDirection = GetRandomPointFromList(randomDirections);
         spaceBody.SetSpeedAndDirection(Random.Range(minSpeedOfBodies, maxSpeedOfBodies), randomDirection);
         spaceBody.StartMoving();
     }

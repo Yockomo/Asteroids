@@ -1,10 +1,12 @@
 using System;
+using System.Linq;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    [SerializeField] private int ignoreLayerIndex;
+    [SerializeField] private List<int> ignoreLayersIndex;
 
     public Action<SpaceBodyController> OnHitEvent;
 
@@ -62,7 +64,7 @@ public class Bullet : MonoBehaviour
 
     protected virtual bool IgnoreObjects(Collider2D collider)
     {
-        return collider.gameObject.layer == ignoreLayerIndex;
+        return ignoreLayersIndex.IndexOf(collider.gameObject.layer) != -1;
     }
 
     public void ReleaseThisBullet()
