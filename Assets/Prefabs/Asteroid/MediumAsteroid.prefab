@@ -29,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8829066845222674133}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.43, y: 1.76, z: 0}
+  m_LocalPosition: {x: 1.191547, y: -3.7030225, z: 0}
   m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
   m_Children: []
   m_Father: {fileID: 0}
@@ -77,7 +77,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 053fe5fa1e7e2734db1b6a58f114ca60, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.6415094, g: 0.23300104, b: 0.23300104, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -160,4 +160,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nestedAsteroids: {fileID: 5553383422556075814, guid: 8da1a4249b168de469a2ec03cbe4f890, type: 3}
   count: 2
-  nestedAsteroidsPool: {fileID: 0}

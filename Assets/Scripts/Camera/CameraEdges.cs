@@ -26,10 +26,10 @@ public class CameraEdges : MonoBehaviour
         var rightBottomPoint = (Vector2) mainCamera.ScreenToWorldPoint(new Vector3(mainCamera.pixelWidth, 0, mainCamera.nearClipPlane));
         var rightTopPoint = (Vector2) mainCamera.ScreenToWorldPoint(new Vector3(mainCamera.pixelWidth, mainCamera.pixelHeight, mainCamera.nearClipPlane));
 
-        leftBottomPoint = new Vector2(leftBottomPoint.x + edgeRadius, leftBottomPoint.y);
-        leftTopPoint = new Vector2(leftTopPoint.x + edgeRadius, leftTopPoint.y);
-        rightTopPoint = new Vector2(rightTopPoint.x-edgeRadius, rightTopPoint.y);
-        rightBottomPoint = new Vector2(rightBottomPoint.x-edgeRadius, rightBottomPoint.y);
+        leftBottomPoint = new Vector2(leftBottomPoint.x + edgeRadius, leftBottomPoint.y + edgeRadius);
+        leftTopPoint = new Vector2(leftTopPoint.x + edgeRadius, leftTopPoint.y - edgeRadius);
+        rightTopPoint = new Vector2(rightTopPoint.x-edgeRadius, rightTopPoint.y - edgeRadius);
+        rightBottomPoint = new Vector2(rightBottomPoint.x-edgeRadius, rightBottomPoint.y + edgeRadius);
 
         var currentCameraEdges = new List<Vector2>() {
             leftBottomPoint, leftTopPoint, rightTopPoint, rightBottomPoint};

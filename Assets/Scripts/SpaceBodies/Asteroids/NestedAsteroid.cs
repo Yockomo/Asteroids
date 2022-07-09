@@ -19,7 +19,8 @@ public class NestedAsteroid : Asteroid
 
     public override void Destroy()
     {
-    OnDestroyEvent?.Invoke(GetComponent<SpaceBodyController>());
+        if(gameObject.activeSelf)
+            OnDestroyEvent?.Invoke(GetComponent<SpaceBodyController>());
     }
 
     public SpaceBodyController GetNestedAsteroids()
