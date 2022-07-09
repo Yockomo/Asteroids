@@ -78,5 +78,10 @@ public class SpaceBodyController : MonoBehaviour, ITeleportable
         IsStopped = false;
         IsMoving = true;
     }
+
+    public Vector3 GetDirection()
+    {
+        return direction;
+    }
 }
 

@@ -3,8 +3,13 @@ using UnityEngine;
 
 public class AsteroidsPool : SpaceBodiePool
 {
-    [SerializeField] private int BodiesToCreate;
-    [SerializeField] private int RandomPointsForCreate;
+    [Header("Pool for medium asteroids")]
+    [SerializeField] private NestedAsteroidsPool nestedPool;
+
+    [Header("Large asteroids settings")]
+    [SerializeField] private int bodiesToCreate;
+    [SerializeField] private int randomPointsForCreate;
+    [SerializeField] private int increaseCountPerSpawn;
     [SerializeField, Range(0, 3)] private float minSpeedOfBodies;
     [SerializeField, Range(0, 3)] private float maxSpeedOfBodies;
 
@@ -25,10 +30,11 @@ public class AsteroidsPool : SpaceBodiePool
 
     private void CreateAsteroids()
     {
-        for (int i = 0; i < BodiesToCreate; i++)
+        for (int i = 0; i < bodiesToCreate; i++)
         {
             spaceBodyPool.Get();
         }
+        bodiesToCreate += increaseCountPerSpawn;
     }
 
     protected override void PoolStartFunction()
@@ -39,10 +45,10 @@ public class AsteroidsPool : SpaceBodiePool
 
     private void FillRandomPointsLists()
     {
-        var listOfYPoints = GetRandomPoints(ScreenSizeParameters.verticalHalfSize, RandomPointsForCreate, 0.8f);
-        var listOfXPoints = GetRandomPoints(ScreenSizeParameters.horizontalHalfSize, RandomPointsForCreate, 0.8f);
+        var listOfYPoints = GetRandomPoints(ScreenSizeParameters.verticalHalfSize, randomPointsForCreate, 0.5f);
+        var listOfXPoints = GetRandomPoints(ScreenSizeParameters.horizontalHalfSize, randomPointsForCreate, 0.5f);
 
-        for (int i = 0; i < RandomPointsForCreate; i++)
+        for (int i = 0; i < randomPointsForCreate; i++)
         {
             var xPoint = GetRandomPointFromList(listOfXPoints);
             var yPoint = GetRandomPointFromList(listOfYPoints);
@@ -57,13 +63,13 @@ public class AsteroidsPool : SpaceBodiePool
 
     private List<float> GetRandomPoints(float borders, int count, float bordersPercent)
     {
-        bordersPercent = bordersPercent > 1 ? 1 : bordersPercent;
+        bordersPercent = bordersPercent > 0.8f ? 0.5f : bordersPercent;
         var listOfPoints = new List<float>();
         for(int i = 0; i<count;i++)
         {
-        var randomMinusPoint = Random.Range(-borders * bordersPercent, -borders);
+        var randomMinusPoint = Random.Range(-borders * bordersPercent, -borders*0.8f);
         listOfPoints.Add(randomMinusPoint);
-        var randomPlusPoint = Random.Range(borders * bordersPercent, borders);
+        var randomPlusPoint = Random.Range(borders * bordersPercent, borders*0.8f);
         listOfPoints.Add(randomPlusPoint);
         }
         return listOfPoints;
@@ -73,21 +79,21 @@ public class AsteroidsPool : SpaceBodiePool
     {
         var randomSpawnPoint = GetRandomPointFromList(randomPointsInScreenArea);
         var body = Instantiate(spaceBodyPrefab, randomSpawnPoint, Quaternion.identity);
-        var asteroid = body.GetComponent<Asteroid>();
+        var asteroid = body.GetComponent<NestedAsteroid>();
         AsteroidEvents(asteroid, true);
         return body;
     }
 
-    protected void AsteroidEvents(Asteroid asteroid, bool follow)
+    protected void AsteroidEvents(NestedAsteroid asteroid, bool follow)
     {
         if (follow)
         {
-            asteroid.OnHitEvent += spaceBodyPool.Release;
+            asteroid.OnHitEvent += nestedPool.CreateAsteroids;
             asteroid.OnDestroyEvent += spaceBodyPool.Release;
         }
         else
         {
-            asteroid.OnHitEvent -= spaceBodyPool.Release;
+            asteroid.OnHitEvent -= nestedPool.CreateAsteroids;
             asteroid.OnDestroyEvent -= spaceBodyPool.Release;
         }
     }
@@ -108,7 +114,7 @@ public class AsteroidsPool : SpaceBodiePool
 
     protected override void ActionsOnDestroy(SpaceBodyController spaceBody)
     {
-        var asteroid = spaceBody.gameObject.GetComponent<Asteroid>();
+        var asteroid = spaceBody.gameObject.GetComponent<NestedAsteroid>();
         AsteroidEvents(asteroid, false);
         base.ActionsOnDestroy(spaceBody);
     }

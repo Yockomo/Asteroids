@@ -42,7 +42,7 @@ public class InputSystem : MonoBehaviour
     private void KeyboardAndMouseInputs()
     {
         Moving = MoveForwardKeyboardInput() || Input.GetKey(KeyCode.Mouse1);
-        Shooting = ShootKeyboradInput() || Input.GetKeyUp(KeyCode.Mouse0);
+        Shooting = ShootKeyboradInput() || Input.GetKeyDown(KeyCode.Mouse0);
     }
 
     private bool MoveForwardKeyboardInput()
@@ -52,7 +52,7 @@ public class InputSystem : MonoBehaviour
 
     private bool ShootKeyboradInput()
     {
-        return Input.GetKeyUp(KeyCode.Space);
+        return Input.GetKeyDown(KeyCode.Space);
     }
 
     private int RotateKeyboardInput()

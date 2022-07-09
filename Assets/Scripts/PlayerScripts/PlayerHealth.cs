@@ -8,22 +8,24 @@ public class PlayerHealth : MonoBehaviour, IHitable
     [SerializeField] private float pingingInterval;
 
     private int currentHealth;
-    private Collider2D playersCollider;
     private SpriteRenderer playersSprite;
+    private bool invinsible;
 
     private void Awake()
     {
-        playersCollider = GetComponent<Collider2D>();
         playersSprite = GetComponent<SpriteRenderer>();
         currentHealth = healthCount;
     }
 
     public void Hit()
     {
-        currentHealth--;
-        if (currentHealth < 1)
-            Destroy();
-        StartCoroutine(InvinsibleTime());
+        if (!invinsible)
+        {
+            currentHealth--;
+            if (currentHealth < 1)
+                Destroy();
+            StartCoroutine(InvinsibleTime());
+        }
     }
 
     public void Destroy()
@@ -34,8 +36,7 @@ public class PlayerHealth : MonoBehaviour, IHitable
     private IEnumerator InvinsibleTime()
     {
         var time = 0f;
-        playersCollider.enabled = false;
-        
+        invinsible = true;
         while(time < invinsibleTime)
         {
             playersSprite.enabled = false;
@@ -44,7 +45,6 @@ public class PlayerHealth : MonoBehaviour, IHitable
             yield return new WaitForSecondsRealtime(pingingInterval/2);
             time += pingingInterval*2;
         }
-
-        playersCollider.enabled = true;
+        invinsible = false;
     }
 }

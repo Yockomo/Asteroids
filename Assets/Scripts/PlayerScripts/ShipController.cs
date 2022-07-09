@@ -4,7 +4,7 @@ using UnityEngine;
 public class ShipController : MonoBehaviour, ITeleportable
 {
     [Header("Movement settings")]
-    [SerializeField] private float moveSpeed;
+    [SerializeField] private float maxMoveSpeed;
     [SerializeField] private Transform forwardPoint;
     
     [Header("Rotation settings")]
@@ -15,23 +15,33 @@ public class ShipController : MonoBehaviour, ITeleportable
     public bool IsStopped { get; set; }
 
     private InputSystem inputs;
+    private Shooting shootingSystem;
+    private float currentSpeed;
 
     private void Start()
     {
         inputs = GetComponent<InputSystem>();
+        shootingSystem = GetComponent<Shooting>();
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         DetermineShipRotationAndMovement();
     }
 
     private void DetermineShipRotationAndMovement()
     {
-        if (inputs.Moving && !IsMoving && !IsStopped)
+        shootingSystem.Shoot();
+
+        if (inputs.Moving && !IsMoving)
+        {
+            SpeedUp();
+        }
+        if (!IsMoving && !IsStopped)
         {
             Move();
         }
+
         if (inputs.GetCurrentScheme() == InputScheme.Keyboard)
         {
             Rotate(inputs.Rotating);
@@ -43,15 +53,24 @@ public class ShipController : MonoBehaviour, ITeleportable
         }
     }
 
+
+    private void SpeedUp()
+    {
+        if (currentSpeed < maxMoveSpeed)
+        {
+            currentSpeed += 0.01f * maxMoveSpeed;
+        }
+    }
+
     private void Move()
     {
-        StartCoroutine(MoveToPosition(1 / moveSpeed));
+        StartCoroutine(MoveToPosition(0.1f));
     }
 
     private IEnumerator MoveToPosition(float duration)
     {
         IsMoving = true;
-        var endPoint = transform.position + (forwardPoint.position - transform.position);
+        var endPoint = transform.position + (forwardPoint.position - transform.position)*currentSpeed;
         var time = 0f;
         Vector2 startPosition = transform.position;
 

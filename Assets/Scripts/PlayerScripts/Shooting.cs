@@ -15,9 +15,9 @@ public class Shooting : MonoBehaviour
         input = GetComponent<InputSystem>();
     }
 
-    private void FixedUpdate()
+    public void Shoot()
     {
-        if(input.Shooting && !cooldown)
+        if (input.Shooting && !cooldown)
         {
             cooldown = true;
             var shootDirection = forwardPoint.position - transform.position;
