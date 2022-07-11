@@ -15,6 +15,7 @@ public class ShipController : MonoBehaviour, ITeleportable
     private InputSystem inputs;
     private Shooting shootingSystem;
     private float currentSpeed;
+    private Vector3 currentDirection;
 
     public bool IsMoving { get; set; }
     public bool IsStopped { get; set; }
@@ -43,7 +44,9 @@ public class ShipController : MonoBehaviour, ITeleportable
 
         if (inputs.Moving && !IsMoving)
         {
-            SpeedUp();
+            var forwardDirection = forwardPoint.position - transform.position;
+            CheckDirection(forwardDirection);
+            SpeedUp(forwardDirection);
         }
         if (!IsMoving && !IsStopped)
         {
@@ -61,14 +64,19 @@ public class ShipController : MonoBehaviour, ITeleportable
         }
     }
 
-
-    private void SpeedUp()
+    private void SpeedUp(Vector3 forwardDirection)
     {
-        if (currentSpeed < maxMoveSpeed)
-        {
-            OnSpeedUpEvent?.Invoke();
-            currentSpeed += 0.01f * maxMoveSpeed;
-        }
+        OnSpeedUpEvent?.Invoke();
+        var angle = Vector3.Angle(forwardDirection.normalized, currentDirection.normalized);
+        float speedSign = Mathf.Cos(angle) == 0f ? 0.5f : Mathf.Cos(angle);
+        currentSpeed +=   0.01f * maxMoveSpeed * speedSign;
+        if (currentSpeed > maxMoveSpeed)
+            currentSpeed = maxMoveSpeed;
+    }
+
+    private void CheckDirection(Vector3 forwardDirection)
+    {
+        currentDirection = (forwardDirection + currentDirection).normalized;
     }
 
     private void Move()
@@ -79,7 +87,7 @@ public class ShipController : MonoBehaviour, ITeleportable
     private IEnumerator MoveToPosition(float duration)
     {
         IsMoving = true;
-        var endPoint = transform.position + (forwardPoint.position - transform.position)*currentSpeed;
+        var endPoint = transform.position + (currentDirection)*currentSpeed;
         var time = 0f;
         Vector2 startPosition = transform.position;
 
