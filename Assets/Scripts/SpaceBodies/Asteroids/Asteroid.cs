@@ -1,8 +1,12 @@
 using UnityEngine;
 
-public class Asteroid : MonoBehaviour, IHitable
+public class Asteroid : MonoBehaviour, IHitable, IScorable
 {
-    private void OnCollisionEnter2D(Collision2D collision)
+    [SerializeField] private int valueForKilling;
+
+    public int Value { get { return valueForKilling; } }
+
+    protected virtual void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.TryGetComponent<IHitable>(out IHitable hitable)
             && !IgnoreObjects(collision))

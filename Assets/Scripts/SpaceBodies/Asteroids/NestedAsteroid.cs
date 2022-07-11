@@ -8,8 +8,9 @@ public class NestedAsteroid : Asteroid
 
     public int CountOfFragments { get { return count; } }
 
-    public virtual event Action<SpaceBodyController> OnHitEvent;
-    public virtual event Action<SpaceBodyController> OnDestroyEvent;
+    public  event Action<SpaceBodyController> OnHitEvent;
+    public  event Action<SpaceBodyController> OnDestroyEvent;
+    public event Action OnDestroySoundEvent;
 
     public override void Hit()
     {
@@ -20,7 +21,10 @@ public class NestedAsteroid : Asteroid
     public override void Destroy()
     {
         if(gameObject.activeSelf)
+        {
             OnDestroyEvent?.Invoke(GetComponent<SpaceBodyController>());
+            OnDestroySoundEvent?.Invoke();
+        }
     }
 
     public SpaceBodyController GetNestedAsteroids()

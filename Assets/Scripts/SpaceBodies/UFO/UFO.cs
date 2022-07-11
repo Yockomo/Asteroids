@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
-public class UFO : MonoBehaviour, IHitable
+public class UFO : MonoBehaviour, IHitable, IScorable
 {
     [Header("Target to Shoot")]
     [SerializeField] private Transform playersShipTransform;
@@ -14,6 +16,7 @@ public class UFO : MonoBehaviour, IHitable
     [SerializeField] private float uFOMoveSpeed;
     [SerializeField] private float atackCooldown;
     [SerializeField] private float spawnCooldown;
+    [SerializeField] private int valueForKilling;
 
     private SpaceBodyController ufoController;
     private Collider2D ufoCollider;
@@ -25,6 +28,15 @@ public class UFO : MonoBehaviour, IHitable
     private bool isAtackCooldown;
     
     private List<Vector2> directionsToMove = new List<Vector2>() { Vector2.left, Vector2.right };
+
+    public int Value { get {return valueForKilling; } }
+
+    public event Action<SpaceBodyController> OnDestroyEvent;
+
+    private void OnDestroy()
+    {
+        OnDestroyEvent = null;
+    }
 
     private void Start()
     {
@@ -113,6 +125,7 @@ public class UFO : MonoBehaviour, IHitable
 
     public void Destroy()
     {
+        OnDestroyEvent?.Invoke(GetComponent<SpaceBodyController>());
         needToRespawn = true;
         EnableUfo(false);
     }

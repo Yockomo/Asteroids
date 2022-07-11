@@ -13,7 +13,8 @@ public class InputSystem : MonoBehaviour
 
     public bool Moving { get; private set; }
     public int  Rotating { get; private set; }
-    public bool Shooting { get; set; }
+    public bool Shooting { get; private set; }
+    public bool Pause { get;private set; }
 
     private void Start()
     {
@@ -30,6 +31,7 @@ public class InputSystem : MonoBehaviour
         {
             KeyboardAndMouseInputs();
         }
+        HandlePause();
     }
 
     private void KeyboardSchemeInputs()
@@ -43,6 +45,11 @@ public class InputSystem : MonoBehaviour
     {
         Moving = MoveForwardKeyboardInput() || Input.GetKey(KeyCode.Mouse1);
         Shooting = ShootKeyboradInput() || Input.GetKeyDown(KeyCode.Mouse0);
+    }
+
+    private void HandlePause()
+    {
+        Pause = Input.GetKeyUp(KeyCode.Escape);
     }
 
     private bool MoveForwardKeyboardInput()
@@ -71,5 +78,20 @@ public class InputSystem : MonoBehaviour
     public InputScheme GetCurrentScheme()
     {
         return KeyboardScheme ? InputScheme.Keyboard : InputScheme.KeyboardAndMouse;
+    }
+
+    public void SetCurrentScheme(InputScheme scheme)
+    {
+        if(scheme == InputScheme.Keyboard)
+            SetScheme(scheme);
+        else
+            SetScheme(InputScheme.KeyboardAndMouse); 
+    }
+
+    private void SetScheme(InputScheme scheme)
+    {
+        var newScheme = scheme == InputScheme.Keyboard ? true : false;
+        KeyboardScheme = newScheme;
+        KeyboardAndMouseScheme = !newScheme;
     }
 }

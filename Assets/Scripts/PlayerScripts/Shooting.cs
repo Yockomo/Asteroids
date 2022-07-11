@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -10,6 +11,13 @@ public class Shooting : MonoBehaviour
     private InputSystem input;
     private bool cooldown;
 
+    public event Action OnShootEvent;
+
+    private void OnDestroy()
+    {
+        OnShootEvent = null;
+    }
+
     private void Start()
     {
         input = GetComponent<InputSystem>();
@@ -19,6 +27,7 @@ public class Shooting : MonoBehaviour
     {
         if (input.Shooting && !cooldown)
         {
+            OnShootEvent?.Invoke();
             cooldown = true;
             var shootDirection = forwardPoint.position - transform.position;
             bulletPool.GetBullet(shootDirection.normalized);

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -11,6 +12,10 @@ public class PlayerHealth : MonoBehaviour, IHitable
     private SpriteRenderer playersSprite;
     private bool invinsible;
 
+    public int CurrentHealth { get; }
+
+    public event Action<int> OnHitEvent;
+
     private void Awake()
     {
         playersSprite = GetComponent<SpriteRenderer>();
@@ -22,6 +27,7 @@ public class PlayerHealth : MonoBehaviour, IHitable
         if (!invinsible)
         {
             currentHealth--;
+            OnHitEvent?.Invoke(currentHealth);
             if (currentHealth < 1)
                 Destroy();
             StartCoroutine(InvinsibleTime());
@@ -30,7 +36,7 @@ public class PlayerHealth : MonoBehaviour, IHitable
 
     public void Destroy()
     {
-        throw new System.NotImplementedException();
+        OnHitEvent = null;
     }
 
     private IEnumerator InvinsibleTime()

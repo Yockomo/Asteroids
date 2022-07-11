@@ -37,6 +37,7 @@ public class SpaceBodiePool : MonoBehaviour
     {
         activeBodiesInPool.Remove(spaceBody);
         spaceBody.gameObject.SetActive(false);
+        spaceBody.Stop();
     }
 
     protected virtual void ActionsOnDestroy(SpaceBodyController spaceBody)
@@ -44,7 +45,7 @@ public class SpaceBodiePool : MonoBehaviour
         Destroy(spaceBody);
     }
 
-    protected virtual List<SpaceBodyController> GetActiveBodies()
+    protected List<SpaceBodyController> GetActiveBodies()
     {
         return activeBodiesInPool;
     }

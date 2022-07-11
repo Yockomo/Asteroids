@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -11,12 +12,19 @@ public class ShipController : MonoBehaviour, ITeleportable
     [SerializeField] private float anglePerRotationKeyboard;
     [SerializeField] private float rotationSpeed;
 
-    public bool IsMoving { get; set; }
-    public bool IsStopped { get; set; }
-
     private InputSystem inputs;
     private Shooting shootingSystem;
     private float currentSpeed;
+
+    public bool IsMoving { get; set; }
+    public bool IsStopped { get; set; }
+
+    public event Action OnSpeedUpEvent;
+
+    private void OnDestroy()
+    {
+        OnSpeedUpEvent = null;
+    }
 
     private void Start()
     {
@@ -58,6 +66,7 @@ public class ShipController : MonoBehaviour, ITeleportable
     {
         if (currentSpeed < maxMoveSpeed)
         {
+            OnSpeedUpEvent?.Invoke();
             currentSpeed += 0.01f * maxMoveSpeed;
         }
     }
