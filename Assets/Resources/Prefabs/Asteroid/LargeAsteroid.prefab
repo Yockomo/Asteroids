@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 5025070324254554341}
   - component: {fileID: 5329968246327889470}
-  - component: {fileID: 5978239012590594462}
   - component: {fileID: 4654406811775565255}
   - component: {fileID: 3880981530540920799}
+  - component: {fileID: 5978239012590594462}
   - component: {fileID: 4460143164350675629}
   m_Layer: 8
   m_Name: LargeAsteroid
@@ -29,8 +29,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3363313464117446239}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.43, y: 1.76, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0.4159, y: 1.7656, z: 0}
+  m_LocalScale: {x: 0.978, y: 0.9912, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -87,18 +87,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &5978239012590594462
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3363313464117446239}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 37b0df66fb539d94885d11451658a95d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!50 &4654406811775565255
 Rigidbody2D:
   serializedVersion: 4
@@ -133,7 +121,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.014242291, y: -0.00011640787}
   m_SpriteTilingProperty:
     border: {x: 0.31, y: 0.31, z: 0.31, w: 0.31}
     pivot: {x: 0.5, y: 0.5}
@@ -144,8 +132,20 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.66575336, y: 0.6852499}
   m_EdgeRadius: 0
+--- !u!114 &5978239012590594462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3363313464117446239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37b0df66fb539d94885d11451658a95d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &4460143164350675629
 MonoBehaviour:
   m_ObjectHideFlags: 0

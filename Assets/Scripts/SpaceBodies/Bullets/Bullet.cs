@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -29,10 +28,10 @@ public class Bullet : MonoBehaviour
 
     private void CalculateScreenDistance()
     {
-        var rightPoint = (Vector2)Camera.main.ScreenToWorldPoint(new Vector3(Camera.main.pixelWidth, 0, Camera.main.nearClipPlane));
+        var rightPoint = (Vector2) Camera.main.ScreenToWorldPoint(new Vector3(Camera.main.pixelWidth, 0, Camera.main.nearClipPlane));
         var screenWidth = GetScreenWidthOrHeight(rightPoint);
 
-        var topPoint = (Vector2)Camera.main.ScreenToWorldPoint(new Vector3(0, Camera.main.pixelHeight, Camera.main.nearClipPlane));
+        var topPoint = (Vector2) Camera.main.ScreenToWorldPoint(new Vector3(0, Camera.main.pixelHeight, Camera.main.nearClipPlane));
         var screenHeight = GetScreenWidthOrHeight(topPoint);
 
         screenDistance = Math.Min(screenHeight, screenWidth);

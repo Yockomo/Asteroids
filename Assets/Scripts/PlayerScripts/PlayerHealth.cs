@@ -37,6 +37,7 @@ public class PlayerHealth : MonoBehaviour, IHitable
     public void Destroy()
     {
         OnHitEvent = null;
+        SceneChanger.LoadMainMenuScene();
     }
 
     private IEnumerator InvinsibleTime()

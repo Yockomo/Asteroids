@@ -3,15 +3,15 @@ using UnityEngine.SceneManagement;
 
 public class SceneChanger : MonoBehaviour
 {
-    private string mainMenuScene = "MainMenuScene";
-    private string playScene = "PlayScene";
+    private static string mainMenuScene = "MainMenuScene";
+    private  static string playScene = "PlayScene";
 
-    public void LoadMainMenuScene()
+    public static void LoadMainMenuScene()
     {
         SceneManager.LoadScene(mainMenuScene);
     }
 
-    public void LoadPlayScene()
+    public static void LoadPlayScene()
     {
         SceneManager.LoadScene(playScene);
     }

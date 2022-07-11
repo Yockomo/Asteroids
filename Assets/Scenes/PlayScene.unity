@@ -1306,7 +1306,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 796137559}
-  - component: {fileID: 796137558}
   m_Layer: 0
   m_Name: SceneChagner
   m_TagString: Untagged
@@ -1314,18 +1313,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &796137558
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 796137557}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb529b55e5fbf9d4a914f4562330d88f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &796137559
 Transform:
   m_ObjectHideFlags: 0
@@ -1896,7 +1883,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 796137558}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SceneChanger, Assembly-CSharp
         m_MethodName: QuitGame
         m_Mode: 1
@@ -2827,6 +2814,7 @@ MonoBehaviour:
   nestedPool: {fileID: 0}
   minSpeedOfBodies: 0.5
   maxSpeedOfBodies: 2
+  angleOfSerparation: 45
 --- !u!1 &1592613571
 GameObject:
   m_ObjectHideFlags: 0
@@ -2910,9 +2898,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 796137558}
+      - m_Target: {fileID: 11500000, guid: fb529b55e5fbf9d4a914f4562330d88f, type: 3}
         m_TargetAssemblyTypeName: SceneChanger, Assembly-CSharp
-        m_MethodName: LoadPlayScene
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3425,6 +3413,7 @@ MonoBehaviour:
   nestedPool: {fileID: 1437798098}
   minSpeedOfBodies: 0.5
   maxSpeedOfBodies: 2
+  angleOfSerparation: 45
 --- !u!4 &7785502396756554644
 Transform:
   m_ObjectHideFlags: 0
