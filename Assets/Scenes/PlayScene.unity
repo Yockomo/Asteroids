@@ -1606,7 +1606,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   KeyboardScheme: 0
-  KeyboardAndMouseScheme: 1
+  KeyboardAndMouseScheme: 0
 --- !u!50 &933990365
 Rigidbody2D:
   serializedVersion: 4
