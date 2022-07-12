@@ -64,19 +64,19 @@ public class ShipController : MonoBehaviour, ITeleportable
         }
     }
 
+    private void CheckDirection(Vector3 forwardDirection)
+    {
+        currentDirection = (currentDirection+forwardDirection).normalized;
+    }
+
     private void SpeedUp(Vector3 forwardDirection)
     {
         OnSpeedUpEvent?.Invoke();
-        var angle = Vector3.Angle(forwardDirection.normalized, currentDirection.normalized);
+        var angle = Vector3.Angle(currentDirection.normalized, forwardDirection.normalized);
         float speedSign = Mathf.Cos(angle) == 0f ? 0.5f : Mathf.Cos(angle);
         currentSpeed +=   0.01f * maxMoveSpeed * speedSign;
         if (currentSpeed > maxMoveSpeed)
             currentSpeed = maxMoveSpeed;
-    }
-
-    private void CheckDirection(Vector3 forwardDirection)
-    {
-        currentDirection = (forwardDirection + currentDirection).normalized;
     }
 
     private void Move()
@@ -87,7 +87,7 @@ public class ShipController : MonoBehaviour, ITeleportable
     private IEnumerator MoveToPosition(float duration)
     {
         IsMoving = true;
-        var endPoint = transform.position + (currentDirection)*currentSpeed;
+        var endPoint = transform.position + (currentDirection.normalized)*currentSpeed;
         var time = 0f;
         Vector2 startPosition = transform.position;
 
